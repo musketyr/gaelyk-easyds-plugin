@@ -72,7 +72,7 @@ shortcutFor('java.util.Map').accept {
 		   params: [arg1: 'java.util.Map'],
 		   doc: 'TODO'
 
-	method name: 'existsAll',
+	method name: 'existAll',
 		   type: 'boolean',
 		   doc: 'TODO'
 

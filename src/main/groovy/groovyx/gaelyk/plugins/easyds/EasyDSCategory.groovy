@@ -39,10 +39,9 @@ class EasyDSCategory {
 			query.addFilter(entry.key, FilterOperator.EQUAL, entry.value)
 		}
 		if(config.sort){
-			switch(config.sort){
-				case ['asc', SortDirection.ASCENDING]	: query.addSort(config.sort, SortDirection.ASCENDING); break
+			switch(config.order){
 				case ['desc', SortDirection.DESCENDING]	: query.addSort(config.sort, SortDirection.DESCENDING); break
-				default: throw new IllegalArgumentException("Sort must be either 'asc' or 'desc' or constant of SortDirection")
+				default: query.addSort(config.sort)
 			}
 		}
 		PreparedQuery pq = ds.prepare(query)
@@ -76,7 +75,7 @@ class EasyDSCategory {
 		}
 	}
 	
-	static boolean existsAll(Map<String, Object> key){
+	static boolean existAll(Map<String, Object> key){
 		try{
 			ds.get(mapToKeys(key))
 			return true

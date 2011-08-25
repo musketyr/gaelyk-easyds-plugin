@@ -53,7 +53,7 @@ public class EasyDSCategorySpec extends Specification {
 	def 'Entity exists'(){
 		expect:
 		EasyDSCategory.exists(book: itKey.id)
-		EasyDSCategory.existsAll(book: [itKey.id, daVinciKey.id])
+		EasyDSCategory.existAll(book: [itKey.id, daVinciKey.id])
 		!EasyDSCategory.exists(book: 123456)
 	}
 	
@@ -159,20 +159,26 @@ public class EasyDSCategorySpec extends Specification {
 				}
 		}
 		
-		def authorLong = {
+		def authorShort = {
 				if(it.size() < 4){
 					return 'Author too short'
 				}
+		}
+		
+		def authorLong = {
+			if(it.size() > 20){
+				return 'Author too long'
+			}
 		}
 		
 		expect:
 		
 		!trueKing('It', [author: 'Stephen King', title: 'It'])
 		trueKing('It', [author: 'Poe', title: 'It']) == 'The only true author of It is Stephen King!'
-		!authorLong('King')
-		authorLong('Poe') == 'Author too short'
+		!authorShort('King')
+		authorShort('Poe') == 'Author too short'
 		
-		EasyDSCategory.validate(EasyDSCategory.create('book', props), [title: trueKing, author: authorLong]) == errors
+		EasyDSCategory.validate(EasyDSCategory.create('book', props), [title: trueKing, author: authorShort]) == errors
 		
 		where:
 		props									| errors
