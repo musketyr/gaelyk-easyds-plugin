@@ -37,27 +37,3 @@ dependencies {
     testCompile "com.google.appengine:appengine-testing:$gaeVersion"
 	testCompile 'javax.servlet:servlet-api:2.5'
 }
-
-task copyPluginDescriptor(dependsOn: jar, type: Copy){
-	from 'src/main/resources/easyDSPlugin.groovy'
-	into 'build/tmp/plugin/war/WEB-INF/plugins'
-}
-
-task copyDSLD(type: Copy){
-	from 'src/main/resources/easyDS.dsld'
-	into 'build/tmp/plugin/src'
-}
-
-task copyJar(type: Copy){
-	from ''
-	into 'build/tmp/plugin/WEB-INF/lib'
-}
-
-task gaelykPlugin(type: Zip, dependsOn: [copyPluginDescriptor, copyDSLD]){
-	from = 'build/tmp/plugin'
-	baseName = 'gaelyk-easyds-plugin'
-}
-
-artifacts {
-	archives gaelykPlugin
-}
