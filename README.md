@@ -13,6 +13,16 @@
  This plugin provides [DSLD](http://en.appsatori.eu/2011/05/writing-groovy-dsl-descriptors-dsld-for.html) 
  file for better [STS](http://www.springsource.com/developer/sts) ([Eclipse](http://www.eclipse.org )) support.
  
+## Instalation
+The easiest way how to install the plugin using [gradle gaelyk plugin 0.2+](https://github.com/bmuschko/gradle-gaelyk-plugin)
+which is able to download and install the plugin by following command
+
+    gradle gaelykInstallPlugin -Pplugin=easyds
+
+Otherwise you can just download the archive and unpack it into your project's directory. The plugin expects 
+your source codes lives in `src` directory. If you are using the new layout, copy `easyDS.dsdl` from `src` folder
+into `src\main\groovy` one to get the code completition in STS.
+ 
 ## Create entities
  To create new entity just call the `create` method on the string representing the entity kind and supply
  map of new entity parameters as the arguments.
@@ -25,7 +35,7 @@
  them by their identifier.
 ### Fetching by id
  To fetch entity from datastore just call the method `fetch` on single map with single entry.
- The key specifies the kind and the value the id. THe id could be any object which can be coereced to long eg. string.
+ The key specifies the kind and the value the id. The id could be any object which can be coereced to long eg. string.
  
 ```groovy
   Entity book = [book: 15].fetch()
