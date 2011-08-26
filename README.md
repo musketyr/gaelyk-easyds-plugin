@@ -119,13 +119,13 @@ form as in the `fetch` and `fetchAll`example.
 ```
 
 ## Entity validation
-You can validate your entity or map using the `validate` method. You call the method with map as an argument
+You can validate your entity or map using the `validate` method. You call the method with map as an argument.
 The map contains validatiors closures. The key in the map of validators must be the same as the name of property
 or entry you want to validate. The validator closure must accept one or two parameters. If the closure
 accepts one parameter the value of the validated property is supplied. If the closure accepts two parameters
 the property value is sent as the first parameter and the map of all properties is supplied as the second parameter.
 The method returns map of errors. Any non-null return value from the closure is supposed to be an error. 
-You usuall want to return the error message as string.
+You usually want to return the error message as string.
 
 ```groovy
  	def trueKing = { value, entity ->
@@ -139,7 +139,9 @@ You usuall want to return the error message as string.
       return 'Author too short'
     }
   }
+  
   def errors = [title: 'The only true author of It is Stephen King!', author: 'Author too short']
+  
   [author: 'Poe', title: 'It'].validate(title: trueKing, author: authorShort) == errors
   [author: 'Stephen King', title: 'It'].validate(title: trueKing, author: authorShort) == [:]
   
