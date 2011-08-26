@@ -25,7 +25,7 @@
  them by their identifier.
 ### Fetching by id
  To fetch entity from datastore just call the method `fetch` on single map with single entry.
- The key specifies the kind and the value the id.
+ The key specifies the kind and the value the id. THe id could be any object which can be coereced to long eg. string.
  
 ```groovy
   Entity book = [book: 15].fetch()
@@ -44,7 +44,7 @@
   List<Entity> books = 'book'.list()
 ```
 
-YOu can cusomize result list by calling the `list` method with map of configurations. Available customizations
+You can cusomize result list by calling the `list` method with map of configurations. Available customizations
 are
  * `max` - the maximum size of result list as int
  * `offset` - the offset of the result list as int
@@ -58,8 +58,94 @@ are
   List<Entity> booksOrderByAuthorDesc = 'book'.list(sort: 'author', order: 'desc')
 ```
 
- 
+### Simple quering
+You can retrieve entities using the simple queries against their properties. There is two similar method
+`fetchBy` and `fetchAllBy` on string which only differs by their number of entities returned. The `fetchBy` returns
+only first entity found and the `fetchAllBy` method returns all the results. The properties supplied in the
+map are searched for equality. You can also use customization map as for `list` method as the second argument.
+
+```groovy
+  Entity firstKingsBook = 'book'.fetchBy(autor: 'Stephen King')
+  List<Entity> kingsBooksByTitle = 'book'.fetchAllBy(author: 'Stephen King', [sort: 'title']) 
+```
+
+### Counting entities
+You can simply obtain count of entites in the database by using the `countAll` method on the
+string representing the entity kind. You can also get count of the simple query result using
+the `countBy` method the same way.
+
+```groovy
+  int booksCount = 'book'.countAll()
+  int kingsBooksCount = 'book'.countBy(author: 'Stephen King')
+```
+
+### Checking existing entities by identifier
+You can check easily if there is corresponding entity in the datastore for given id or ids using the
+`exists` or `existAll` method. The method is called on the map having the same form as in the `fetch` and `fetchAll`
+example.
+
+```groovy
+  boolean itExists = [book: 15].exists()
+  boolean theyExist = [book: [15, 20, 30]].existAll()
+```
+## Updating entities
+You can update entity properties by calling the `update` method on the map. The map must have the same
+form as in the `fetch` example. The `update` method works on entities themselves too.
+
+```groovy
+  Entity updated = [book: 15].update(author: 'Paul King')
+  updated.update(author: 'Me Myself I.')
+```
+
+### Conditional updates for unset properties
+Sometimes you want set properties only if they weren't set before. You can use the `updateIfNotSet` method
+on maps and entities in the same manner as the `update` method. The `entity.hasPropery(propertyName)` method
+is used to determine whether the property is set.
+
+```groovy
+  Entity book = 'book'.create(author: 'Stephen King')
+  book.updateIfNotSet(title: 'It') // the title is 'It' now
+  book.updateIfNotSet(title: 'Cujo') // the title is still the same, because it was already set
+```
+
+## Deleting entities
+To delete entity or entities just use the `delete` or `deleteAll` method on the map. The map must have the same
+form as in the `fetch` and `fetchAll`example. 
+
+```groovy
+ [book: 15].delete()
+ [book: [11, 12, 13]].deleteAll()
+```
+
+## Entity validation
+You can validate your entity or map using the `validate` method. You call the method with map as an argument
+The map contains validatiors closures. The key in the map of validators must be the same as the name of property
+or entry you want to validate. The validator closure must accept one or two parameters. If the closure
+accepts one parameter the value of the validated property is supplied. If the closure accepts two parameters
+the property value is sent as the first parameter and the map of all properties is supplied as the second parameter.
+The method returns map of errors. Any non-null return value from the closure is supposed to be an error. 
+You usuall want to return the error message as string.
+
+```groovy
+ 	def trueKing = { value, entity ->
+				if(value == 'It' && entity.author != 'Stephen King'){
+					return 'The only true author of It is Stephen King!'
+				}
+		}
+		
+		def authorShort = {
+				if(it.size() < 4){
+					return 'Author too short'
+				}
+		}
+		def errors = [title: 'The only true author of It is Stephen King!', author: 'Author too short']
+  [author: 'Poe', title: 'It'].validate(title: trueKing, author: authorShort) == errors
+  [author: 'Stephen King', title: 'It'].validate(title: trueKing, author: authorShort) == [:]
+  
+```
+
+
 ## Roadmap
  
- * 0.1 - Basic CRUD operations
+ * 0.1 - Basic CRUD operations and validation
  * 0.2 - Reusable validations
