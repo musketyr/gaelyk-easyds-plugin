@@ -46,6 +46,7 @@
 
 You can cusomize result list by calling the `list` method with map of configurations. Available customizations
 are
+
  * `max` - the maximum size of result list as int
  * `offset` - the offset of the result list as int
  * `sort` - the property to be used for sorting the list
@@ -128,17 +129,17 @@ You usuall want to return the error message as string.
 
 ```groovy
  	def trueKing = { value, entity ->
-				if(value == 'It' && entity.author != 'Stephen King'){
-					return 'The only true author of It is Stephen King!'
-				}
+		if(value == 'It' && entity.author != 'Stephen King'){
+			return 'The only true author of It is Stephen King!'
 		}
+	}
 		
-		def authorShort = {
-				if(it.size() < 4){
-					return 'Author too short'
-				}
-		}
-		def errors = [title: 'The only true author of It is Stephen King!', author: 'Author too short']
+	def authorShort = {
+    if(it.size() < 4){
+      return 'Author too short'
+    }
+  }
+  def errors = [title: 'The only true author of It is Stephen King!', author: 'Author too short']
   [author: 'Poe', title: 'It'].validate(title: trueKing, author: authorShort) == errors
   [author: 'Stephen King', title: 'It'].validate(title: trueKing, author: authorShort) == [:]
   
@@ -148,4 +149,4 @@ You usuall want to return the error message as string.
 ## Roadmap
  
  * 0.1 - Basic CRUD operations and validation
- * 0.2 - Reusable validations
+ * 0.2 - Reusable and combinable validations
