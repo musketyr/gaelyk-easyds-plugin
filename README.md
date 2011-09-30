@@ -161,5 +161,5 @@ You usually want to return the error message as string.
 ## Roadmap
  
  * 0.1 - Basic CRUD operations and validation
- * 0.2 - Reusable and combinable validations
- * 0.3 - Ability to cache entities
+ * 0.2 - Ability to cache entities
+ * 0.3 - Reusable and combinable validations
