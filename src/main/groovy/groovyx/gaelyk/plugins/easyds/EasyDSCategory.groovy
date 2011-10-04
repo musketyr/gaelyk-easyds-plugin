@@ -15,6 +15,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
+import groovy.lang.Closure;
 import groovy.lang.GString;
 import groovyx.gaelyk.GaelykCategory;
 
@@ -100,6 +101,33 @@ class EasyDSCategory {
 		ds.get(mapToKeys(key)).values()
 	}
 	
+	static Entity safeFetch(Map<String, Object> key){
+		try{
+			return fetch(key)
+		} catch (EntityNotFoundException e){
+			return null
+		}
+	}
+	
+	static void safeDelete(Map<String, Object> key){
+		try{ 
+			delete(key)
+		} catch (e){
+			// noop
+		}
+	}
+	static void safeDeleteAll(Map<String, Object> key){
+		try {
+			deleteAll(mapToKeys(key))
+		} catch (e) {
+			// noop
+		}
+	}
+	
+	static Set<Entity> safeFetchAll(Map<String, Object> key){
+		mapToKeys(key).collect{ safeFetch([(mapToKind(key)):it]) }.grep()
+	}
+	
 	static List<Entity> list(String entity, Map<String, Object> config = [:]){
 		fetchAllBy(entity, [:], config)
 	}
@@ -155,6 +183,14 @@ class EasyDSCategory {
 		errors
 	}
 	
+	static void invalidateCache(String kind){
+		// noop
+	}
+	
+	static cache(String kind, String key, Closure closure){
+		closure.call()
+	}
+	
 	private static executeValidationClosure(value, Map<String, Object> props, Closure closure){
 		switch(closure.parameterTypes.size()){
 				case 0: return closure.call()
@@ -175,6 +211,12 @@ class EasyDSCategory {
 		Entry<String, Object>  entry = keys.entrySet().asList().first()
 		assert entry.value instanceof Iterable
 		entry.value.collect{ KeyFactory.createKey(entry.key, it as Long) }
+	}
+	
+	private static String mapToKind(Map key) {
+		assert key && key.size() == 1
+		Entry<String, Object>  entry = key.entrySet().asList().first()
+		entry.key
 	}
 
 	private static DatastoreService getDs(){

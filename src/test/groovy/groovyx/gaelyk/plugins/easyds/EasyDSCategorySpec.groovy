@@ -69,26 +69,30 @@ public class EasyDSCategorySpec extends Specification {
 	}
 	
 	def 'Fetch all offset'(){
+		expect:
 		List<Entity> books = EasyDSCategory.fetchAllBy('book', [owned: false], [offset: 1])
 		books.size() == 1
 		books[0].getProperty('published') == 1982
 	}
 	
 	def 'Fetch all max'(){
+		expect:
 		List<Entity> books = EasyDSCategory.fetchAllBy('book', [owned: false], [max: 1])
 		books.size() == 1
 		books[0].getProperty('published') == 2003
 	}
 	
 	def 'Fetch all sorted'(){
-		List<Entity> books = EasyDSCategory.fetchAllBy('book', [owned: false], [sort: published])
+		expect:
+		List<Entity> books = EasyDSCategory.fetchAllBy('book', [owned: false], [sort: "published"])
 		books.size() == 2
 		books[0].getProperty('published') == 1982
 		books[1].getProperty('published') == 2003
 	}
 	
 	def 'Fetch all sorted desc'(){
-		List<Entity> books = EasyDSCategory.fetchAllBy('book', [owned: false], [sort: published, order: 'desc'])
+		expect:
+		List<Entity> books = EasyDSCategory.fetchAllBy('book', [owned: false], [sort: "published", order: 'desc'])
 		books.size() == 2
 		books[0].getProperty('published') == 2003
 		books[1].getProperty('published') == 1982

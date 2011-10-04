@@ -9,7 +9,7 @@ shortcutFor('java.lang.String').accept {
 	provider = 'Gaelyk Easy Datastore Plugin'
 	method name: 'list',
 		   type: 'java.util.List',
-		   params: [arg1: 'java.util.Map'],
+		   params: [config: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'list',
@@ -18,12 +18,12 @@ shortcutFor('java.lang.String').accept {
 
 	method name: 'create',
 		   type: 'com.google.appengine.api.datastore.Entity',
-		   params: [arg1: 'java.util.Map'],
+		   params: [params: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'countBy',
 		   type: 'int',
-		   params: [arg1: 'java.util.Map'],
+		   params: [query: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'countAll',
@@ -32,31 +32,36 @@ shortcutFor('java.lang.String').accept {
 
 	method name: 'fetchAllBy',
 		   type: 'java.util.List',
-		   params: [arg1: 'java.util.Map', arg2: 'java.util.Map'],
+		   params: [query: 'java.util.Map', config: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'fetchAllBy',
 		   type: 'java.util.List',
-		   params: [arg1: 'java.util.Map'],
+		   params: [query: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'fetchBy',
 		   type: 'com.google.appengine.api.datastore.Entity',
-		   params: [arg1: 'java.util.Map', arg2: 'java.util.Map'],
+		   params: [query: 'java.util.Map', config: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'fetchBy',
 		   type: 'com.google.appengine.api.datastore.Entity',
-		   params: [arg1: 'java.util.Map'],
+		   params: [query: 'java.util.Map'],
 		   doc: 'TODO'
 
+    method name: 'invalidateCache',
+		   type: 'void',
+		   doc: 'TODO'
+		   
+    method name: 'cache',
+		   type: 'java.lang.Object',
+		   params: [key: 'java.lang.String', closure: 'groovy.lang.Closure'],
+		   doc: 'TODO'
 }
 
 shortcutFor('java.util.Map').accept {
 	provider = 'Gaelyk Easy Datastore Plugin'
-	method name: 'delete',
-		   type: 'void',
-		   doc: 'TODO'
 
 	method name: 'exists',
 		   type: 'boolean',
@@ -64,18 +69,22 @@ shortcutFor('java.util.Map').accept {
 
 	method name: 'update',
 		   type: 'com.google.appengine.api.datastore.Entity',
-		   params: [arg1: 'java.util.Map'],
+		   params: [params: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'validate',
 		   type: 'java.util.Map',
-		   params: [arg1: 'java.util.Map'],
+		   params: [params: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'existAll',
 		   type: 'boolean',
 		   doc: 'TODO'
 
+	method name: 'delete',
+		   type: 'void',
+		   doc: 'TODO'
+		   
 	method name: 'deleteAll',
 		   type: 'void',
 		   doc: 'TODO'
@@ -87,10 +96,26 @@ shortcutFor('java.util.Map').accept {
 	method name: 'fetchAll',
 		   type: 'java.util.Set',
 		   doc: 'TODO'
+		   
+	method name: 'safeDelete',
+		   type: 'void',
+		   doc: 'TODO'
+		   
+	method name: 'safeDeleteAll',
+		   type: 'void',
+		   doc: 'TODO'
+
+	method name: 'safeFetch',
+		   type: 'com.google.appengine.api.datastore.Entity',
+		   doc: 'TODO'
+
+	method name: 'safeFetchAll',
+		   type: 'java.util.Set',
+		   doc: 'TODO'
 
 	method name: 'updateIfNotSet',
 		   type: 'com.google.appengine.api.datastore.Entity',
-		   params: [arg1: 'java.util.Map'],
+		   params: [params: 'java.util.Map'],
 		   doc: 'TODO'
 
 }
@@ -99,17 +124,17 @@ shortcutFor('com.google.appengine.api.datastore.Entity').accept {
 	provider = 'Gaelyk Easy Datastore Plugin'
 	method name: 'update',
 		   type: 'com.google.appengine.api.datastore.Entity',
-		   params: [arg1: 'java.util.Map'],
+		   params: [params: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'validate',
 		   type: 'java.util.Map',
-		   params: [arg1: 'java.util.Map'],
+		   params: [params: 'java.util.Map'],
 		   doc: 'TODO'
 
 	method name: 'updateIfNotSet',
 		   type: 'com.google.appengine.api.datastore.Entity',
-		   params: [arg1: 'java.util.Map'],
+		   params: [params: 'java.util.Map'],
 		   doc: 'TODO'
 
 }
