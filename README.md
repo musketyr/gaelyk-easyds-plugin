@@ -156,7 +156,35 @@ You usually want to return the error message as string.
   [author: 'Stephen King', title: 'It'].validate(title: trueKing, author: authorShort) == [:]
   
 ```
+## Caching
+Since version 0.2 you can choose whether you want to enable automatic caching of entities. The caching
+is disabled by default for backward compatibility reason but you can easily enable it by editing the
+`easyDSPlugin` script.
 
+Every method mentioned before are aware of caching. For example the `exists` method on the map.
+
+```groovy
+  // this is the first call of the method
+  // db operaion will be performed and the result will be cached
+  [book: 15].exists()
+  // any other calls will return cached result 
+  [book: 15].exists()
+  [book: 15].exists()
+  [book: 15].exists()
+  // if you know the entities was changed, you can invalidate their cache
+  'book'.invalidateCache()
+  // next call will ask the datastore again
+  [book: 15].exists()
+```
+
+You could also cache entity-related query results and other resources
+
+```groovy
+  'book'.cache('rss') {
+      getBooksAtom()
+  }
+```
+The result is kept in cache as long as there are no entity added, updated or deleted.
 
 ## Roadmap
  
