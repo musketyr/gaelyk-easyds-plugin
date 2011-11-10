@@ -5,13 +5,14 @@
  methods on [Grails](http://grails.org) domain classes. It provides basic [CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
  and validation support for basic app engine entities. Because the app engine datastore
  entites are distinguished by their kinds and keys the most of the methods are added to the String and Map classes.
- If there is an option 
  
  This plugin is expected to use for basic datastore operations. For more sophisticated use e.g.
  [Obgaektify](http://obgaektify.appspot.com/) or other ORM framework.
  
  This plugin provides [DSLD](http://en.appsatori.eu/2011/05/writing-groovy-dsl-descriptors-dsld-for.html) 
  file for better [STS](http://www.springsource.com/developer/sts) ([Eclipse](http://www.eclipse.org )) support.
+ 
+ Caching could be simply enabled in `easyDBPlugin` script.
  
 ## Instalation
 The easiest way how to install the plugin using [gradle gaelyk plugin 0.2+](https://github.com/bmuschko/gradle-gaelyk-plugin)
